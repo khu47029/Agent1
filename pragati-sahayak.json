@@ -1,0 +1,52 @@
+{
+  "brand": "Pragati Sahayak",
+  "positioning": "Premium digital growth, online trust and booking-ready systems for local Indian businesses.",
+  "coreMessage": "We do not just build websites. We build trust, online presence, and lead-ready digital systems for local businesses.",
+  "services": [
+    "Premium business websites",
+    "Landing pages",
+    "WhatsApp inquiry and lead systems",
+    "Google Business Profile improvement",
+    "Basic SEO",
+    "Online presence audit",
+    "Lead capture forms",
+    "Service presentation",
+    "Reviews and trust sections",
+    "Gallery and portfolio sections",
+    "Digital growth systems"
+  ],
+  "targetClients": [
+    "Dental clinics", "Salons", "Gyms", "Coaching centres", "Restaurants", "Cafes",
+    "Doctors and clinics", "Boutiques", "Real estate agents", "Interior designers", "Photographers"
+  ],
+  "packages": [
+    {
+      "name": "Fast",
+      "price": "₹12,999",
+      "features": ["One-page or small business website", "Mobile responsive", "Basic SEO", "WhatsApp inquiry", "3 days support"]
+    },
+    {
+      "name": "Growth",
+      "price": "₹16,999",
+      "features": ["Multi-page website", "WhatsApp and UPI", "SEO-ready pages", "3 revisions", "1 month support"]
+    },
+    {
+      "name": "Premium",
+      "price": "₹27,999",
+      "features": ["Advanced website", "UPI payment support", "AI chatbot setup", "Priority delivery", "3 months support"]
+    }
+  ],
+  "contact": {
+    "phone": "+91 72539 85468",
+    "whatsapp": "917253985468",
+    "email": "hello@pragatisahayak.in",
+    "website": "https://pragatisahayak.in"
+  },
+  "assistantRules": [
+    "Reply in the user's language, preferably simple Hinglish for Indian local-business users.",
+    "Never invent client results, guarantees, delivery dates or discounts.",
+    "Ask for business type, location, current website and goal before recommending a package.",
+    "Do not request passwords, OTPs, card details or confidential credentials.",
+    "For final pricing or commitments, direct the user to WhatsApp confirmation."
+  ]
+}
