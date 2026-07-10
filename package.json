@@ -1,0 +1,11 @@
+{
+  "name": "pragati-sahayak-ai-backend",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node api/server.js",
+    "check": "node --check api/server.js && node --check pragati-ai.js"
+  },
+  "engines": {"node": ">=20"}
+}
