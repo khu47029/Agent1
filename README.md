@@ -1,10 +1,23 @@
-# Pragati Sahayak AI Team
+# Pragati Sahayak Agent Backend
 
-- `ceo-agent`: coordinates tasks and checks quality.
-- `sales-agent`: qualifies leads and writes outreach/follow-ups.
-- `seo-agent`: performs local and on-page SEO analysis.
-- `audit-agent`: audits website trust, UX, speed, mobile and conversion.
-- `proposal-agent`: creates proposals using approved packages only.
-- `coder-agent`: implements and reviews website changes.
+Render-ready Node.js backend for the Pragati Sahayak AI audit form.
 
-The public website communicates with the secure API in `api/server.js`. API keys must never be placed in `index.html` or committed to GitHub.
+## Render settings
+- Build command: `npm install`
+- Start command: `npm start`
+- Health check: `/health`
+
+## Required environment variable
+- `GEMINI_API_KEY`
+
+## Optional environment variables
+- `GEMINI_MODEL` (default: `gemini-2.5-flash`)
+- `ALLOWED_ORIGINS` (comma-separated origins)
+- `LEAD_WEBHOOK_URL`
+
+## Endpoints
+- `GET /`
+- `GET /health`
+- `POST /api/chat`
+- `POST /api/agent-workflow`
+- `POST /api/agent-audit` (frontend-compatible alias)

@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: pragati-sahayak-agent-api
+    name: pragati-agent-backend
     runtime: node
     plan: free
     buildCommand: npm install
@@ -12,4 +12,4 @@ services:
       - key: GEMINI_MODEL
         value: gemini-2.5-flash
       - key: ALLOWED_ORIGINS
-        value: https://pragatisahayak.in,https://www.pragatisahayak.in
+        value: https://pragatisahayak.in,https://www.pragatisahayak.in,https://khu47029.github.io

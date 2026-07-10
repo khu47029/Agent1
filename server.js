@@ -5,13 +5,28 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const knowledgePath = path.join(__dirname, '..', 'knowledge', 'pragati-sahayak.json');
-const knowledge = JSON.parse(await readFile(knowledgePath, 'utf8'));
+const knowledgeCandidates = [
+  path.join(__dirname, 'knowledge', 'pragati-sahayak.json'),
+  path.join(__dirname, 'pragati-sahayak.json')
+];
+
+async function loadKnowledge() {
+  for (const candidate of knowledgeCandidates) {
+    try {
+      return JSON.parse(await readFile(candidate, 'utf8'));
+    } catch (error) {
+      if (error?.code !== 'ENOENT') throw error;
+    }
+  }
+  throw new Error('KNOWLEDGE_FILE_NOT_FOUND');
+}
+
+const knowledge = await loadKnowledge();
 
 const PORT = Number(process.env.PORT || 8787);
 const MODEL = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
 const API_KEY = process.env.GEMINI_API_KEY || '';
-const ALLOWED_ORIGINS = (process.env.ALLOWED_ORIGINS || process.env.ALLOWED_ORIGIN || 'https://pragatisahayak.in')
+const ALLOWED_ORIGINS = (process.env.ALLOWED_ORIGINS || process.env.ALLOWED_ORIGIN || 'https://pragatisahayak.in,https://www.pragatisahayak.in,https://khu47029.github.io')
   .split(',').map(value => value.trim()).filter(Boolean);
 const LEAD_WEBHOOK_URL = process.env.LEAD_WEBHOOK_URL || '';
 const MAX_BODY = 24_000;
@@ -133,6 +148,7 @@ async function runAgentWorkflow(lead) {
 const server = http.createServer(async (req, res) => {
   if (!originAllowed(req.headers.origin || '')) return json(req, res, 403, { error: 'Origin not allowed' });
   if (req.method === 'OPTIONS') return json(req, res, 204, {});
+  if (req.method === 'GET' && req.url === '/') return json(req, res, 200, { ok: true, service: 'Pragati Sahayak Agent API', health: '/health' });
   if (req.method === 'GET' && req.url === '/health') return json(req, res, 200, { ok: true, model: MODEL, agents: ['chat', 'audit', 'seo', 'proposal', 'sales', 'ceo-review'] });
   if (!checkRate(req)) return json(req, res, 429, { error: 'Too many requests. Please wait one minute.' });
 
@@ -145,7 +161,7 @@ const server = http.createServer(async (req, res) => {
       return json(req, res, 200, { reply });
     }
 
-    if (req.method === 'POST' && req.url === '/api/agent-workflow') {
+    if (req.method === 'POST' && (req.url === '/api/agent-workflow' || req.url === '/api/agent-audit')) {
       const body = await readBody(req);
       const lead = cleanLead(body);
       const id = crypto.randomUUID();
@@ -159,7 +175,7 @@ const server = http.createServer(async (req, res) => {
   } catch (error) {
     const known = {
       BODY_TOO_LARGE: [413, 'Request is too large'], INVALID_JSON: [400, 'Invalid request'],
-      MISSING_API_KEY: [503, 'AI service is not configured'], MISSING_LEAD_FIELDS: [400, 'Business name, type, city and WhatsApp are required']
+      MISSING_API_KEY: [503, 'AI service is not configured'], KNOWLEDGE_FILE_NOT_FOUND: [500, 'Business knowledge file is missing'], MISSING_LEAD_FIELDS: [400, 'Business name, type, city and WhatsApp are required']
     };
     const [status, message] = known[error.message] || [500, 'AI service is temporarily unavailable'];
     console.error('[api]', error.message);
